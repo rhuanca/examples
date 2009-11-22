@@ -1,22 +1,30 @@
-mvn install:install-file -Dfile=org.springframework.aop-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.aop -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.asm-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.asm -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.aspects-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.aspects -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.beans-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.beans -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.context-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.context -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.context.support-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.context.support -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.core-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.core -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.expression-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.expression -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.instrument-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.instrument -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.instrument.tomcat-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.instrument.tomcat -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.jdbc-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.jdbc -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.jms-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.jms -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.orm-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.orm -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.oxm-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.oxm -Dversion=3rc2 -Dpackaging=jar
-#mvn install:install-file -Dfile=org.springframework.spring-library-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.spring-library-3.0.0.RC2.libd -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.test-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.test -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.transaction-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.transaction -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.web-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.web -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.web.portlet-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.web.portlet -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.web.servlet-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.web.servlet -Dversion=3rc2 -Dpackaging=jar
-mvn install:install-file -Dfile=org.springframework.web.struts-3.0.0.RC2.jar -DgroupId=org.springframework -DartifactId=org.springframework.web.struts -Dversion=3rc2 -Dpackaging=jar
+SITE
+----
+
+http://www.springsource.org/download
+
+INSTALL JARS
+------------
+
+mvn install:install-file -Dfile=org.springframework.aop-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=aop -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.asm-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=asm -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.aspects-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=aspects -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.beans-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=beans -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.context-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=context -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.context.support-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=support -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.core-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=core -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.expression-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=expression -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.instrument-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=instrument -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.instrument.tomcat-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=tomcat -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.jdbc-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=jdbc -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.jms-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=jms -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.orm-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=orm -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.oxm-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=oxm -Dversion=3.0 -Dpackaging=jar
+#mvn install:install-file -Dfile=org.springframework.spring-library-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=org.springframework.spring-library-3.0.0.RC2.libd -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.test-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=test -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.transaction-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=transaction -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.web-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=web -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.web.portlet-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=web.portlet -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.web.servlet-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=web.servlet -Dversion=3.0 -Dpackaging=jar
+mvn install:install-file -Dfile=org.springframework.web.struts-3.0.0.RC2.jar -DgroupId=test-springframework -DartifactId=web.struts -Dversion=3.0 -Dpackaging=jar
 
