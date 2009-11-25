@@ -2,10 +2,8 @@ package net.sumasoftware.restful.web.controller;
 
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.apache.log4j.Logger;
-import org.apache.commons.configuration.Configuration;
 
 import javax.servlet.ServletContext;
-import java.util.Enumeration;
 
 /**
  * @author Renan Huanca
@@ -20,5 +18,7 @@ public class ApplicationContext extends XmlWebApplicationContext {
         super.setServletContext(servletContext);
         ApplicationConfiguration.loadConfiguration(servletContext,
                 servletContext.getInitParameter("contextConfigLocation"));
+        ConnectionManager.loadConnectionProperties(ApplicationConfiguration.getInstance());
+        
     }
 }
