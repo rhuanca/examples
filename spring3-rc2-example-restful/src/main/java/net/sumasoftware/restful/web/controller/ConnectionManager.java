@@ -12,19 +12,20 @@ import java.util.ArrayList;
  */
 public class ConnectionManager {
     private static Logger logger = Logger.getLogger(ConnectionManager.class);
+    static ConnectionManager instance = null;
 
     List connections = new ArrayList();
 
-    public void addConnectionProperties(ConnectionProperties connectionProperties){
-        connections.add(connectionProperties);
+    public void addConnectionProperties(DBConnection DBConnection){
+        connections.add(DBConnection);
     }
 
-    public ConnectionProperties getConnectionProperties(int index){
-        return (ConnectionProperties) connections.get(index);
+    public DBConnection getConnectionProperties(int index){
+        return (DBConnection) connections.get(index);
     }
 
-    public int getNumberOfConnections(){
-        return connections.size();
+    public List getConnections() {
+        return connections;
     }
 
     public static void loadConnectionProperties(Configuration configuration){
@@ -36,14 +37,22 @@ public class ConnectionManager {
             i++;
         }
         logger.info("Found connections: " + i);
+        instance = connectionManager;
     }
 
-    private static ConnectionProperties buildConnectionProperties(Configuration configuration, int index){
-        ConnectionProperties connectionProperties = new ConnectionProperties();
-        connectionProperties.setDriverClassName(configuration.getString("jdbc_connection."+index+".driverClassName"));
-        connectionProperties.setUrl(configuration.getString("jdbc_connection."+index+".url"));
-        connectionProperties.setUsername(configuration.getString("jdbc_connection."+index+".username"));
-        connectionProperties.setPassword(configuration.getString("jdbc_connection."+index+".password"));
-        return connectionProperties;
+    private static DBConnection buildConnectionProperties(Configuration configuration, int index){
+        DBConnection DBConnection = new DBConnection();
+        DBConnection.setDriverClassName(configuration.getString("jdbc_connection."+index+".driverClassName"));
+        DBConnection.setUrl(configuration.getString("jdbc_connection."+index+".url"));
+        DBConnection.setUsername(configuration.getString("jdbc_connection."+index+".username"));
+        DBConnection.setPassword(configuration.getString("jdbc_connection."+index+".password"));
+        return DBConnection;
+    }
+
+    public static ConnectionManager getInstance(){
+        if(instance == null){
+            throw new RuntimeException("Connection Manager was not initialized.");
+        }
+        return instance;
     }
 }

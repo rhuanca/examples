@@ -10,10 +10,10 @@
 
     <repositories>
         <repository>
-          <id>springsource maven repo</id>
-          <url>http://maven.springframework.org/milestone</url>
-         </repository>
-	</repositories>
+            <id>springsource maven repo</id>
+            <url>http://maven.springframework.org/milestone</url>
+        </repository>
+    </repositories>
 
     <dependencies>
 
@@ -33,9 +33,9 @@
 
         <!-- spring 3 -->
         <dependency>
-             <groupId>org.springframework</groupId>
-             <artifactId>spring-webmvc</artifactId>
-             <version>3.0.0.RC2</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>3.0.0.RC2</version>
         </dependency>
 
         <!-- commons configuration -->
@@ -66,7 +66,27 @@
             <version>1.2.14</version>
             <scope>compile</scope>
         </dependency>
-        
+
+        <!-- dbcp -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <!-- postgres -->
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>8.4-701.jdbc4</version>
+        </dependency>
+
+        <!-- mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.10</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
