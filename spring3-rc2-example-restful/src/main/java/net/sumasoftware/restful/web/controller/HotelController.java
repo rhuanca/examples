@@ -46,4 +46,11 @@ public class HotelController {
 
         response.getWriter().print("hotelId = " + hotelId);
     }
+
+    @RequestMapping("/open")
+    public String init() {
+        return "webServicesList";
+    }
+
+
 }

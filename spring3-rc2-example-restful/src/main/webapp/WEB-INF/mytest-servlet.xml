@@ -9,6 +9,17 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-        <context:component-scan base-package="net.sumasoftware.restful.web.*"/>
+    <context:component-scan base-package="net.sumasoftware.restful.web.*"/>
+
+    <!-- message resources -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames" value="application-messages"/>
+    </bean>
+
+
+    <!-- view resolver -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location" value="WEB-INF/conf/application-views.xml"/>
+    </bean>
 
 </beans>
