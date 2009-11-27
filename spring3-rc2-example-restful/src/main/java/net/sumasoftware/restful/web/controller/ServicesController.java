@@ -20,8 +20,8 @@ import java.sql.Connection;
  * @since Nov 22, 2009  10:54:31 AM
  */
 @Controller
-public class HotelController {
-    private static Logger logger = Logger.getLogger(HotelController.class);
+public class ServicesController {
+    private static Logger logger = Logger.getLogger(ServicesController.class);
 
     @RequestMapping(value="/hotels/{hotelId}", method= RequestMethod.GET)
     public void getHotel(@PathVariable String hotelId, HttpServletResponse response) throws IOException, SQLException {
@@ -47,10 +47,6 @@ public class HotelController {
         response.getWriter().print("hotelId = " + hotelId);
     }
 
-    @RequestMapping("/open")
-    public String init() {
-        return "webServicesList";
-    }
 
 
 }

@@ -8,7 +8,7 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
     <bean id="webServicesList" class="org.springframework.web.servlet.view.JstlView">
-        <property name="url" value="/ui/tables2.jsp"/>
+        <property name="url" value="/ui/services_index.jsp"/>
     </bean>
 
 </beans>
