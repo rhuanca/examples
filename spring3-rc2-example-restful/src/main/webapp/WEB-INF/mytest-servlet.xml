@@ -13,13 +13,12 @@
 
     <!-- message resources -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basenames" value="application-messages"/>
+        <property name="basenames" value="application_messages"/>
     </bean>
-
 
     <!-- view resolver -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
-        <property name="location" value="WEB-INF/conf/application-views.xml"/>
+        <property name="location" value="WEB-INF/conf/application_views.xml"/>
     </bean>
 
 </beans>

@@ -36,7 +36,7 @@
     
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>WEB-INF/conf/application-config.properties</param-value>
+        <param-value>WEB-INF/conf/application_config.properties</param-value>
     </context-param>
 
     <welcome-file-list>

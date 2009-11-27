@@ -9,7 +9,7 @@
     <title><fmt:message key="application.title"/></title>
     <link rel="icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon"/>
-
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/css/base.css"/>
 </head>
 <body>
 	<table border="0" width="100%" height="100%">
@@ -23,8 +23,7 @@
                             </span>
                         </td>
                         <td>
-                            <div class="user_name">Welcome.</div>
-
+                            <div class="user_name">Welcome!!!</div>
                         </td>
                     </tr>
                 </table>

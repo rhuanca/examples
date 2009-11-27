@@ -54,7 +54,7 @@ input[disabled], input[disabled]:hover{
 	cursor:pointer;
 }
 .app_title {
-    font-size: large;
+    font-size: xx-large;
     font-family: Arial, Helvetica, sans-serif;
     color: #00354d;
     height:100%;

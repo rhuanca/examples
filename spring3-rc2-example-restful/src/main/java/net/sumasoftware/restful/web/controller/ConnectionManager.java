@@ -36,7 +36,7 @@ public class ConnectionManager {
             connectionManager.addConnectionProperties(buildConnectionProperties(configuration, i));
             i++;
         }
-        logger.info("Found connections: " + i);
+        logger.info("Found database connections: " + i);
         instance = connectionManager;
     }
 
