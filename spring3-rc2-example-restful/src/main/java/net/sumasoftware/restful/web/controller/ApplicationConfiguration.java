@@ -15,6 +15,8 @@ import javax.servlet.ServletContext;
 public class ApplicationConfiguration extends ConfigurationMap {
     private static Logger logger = Logger.getLogger(ApplicationConfiguration.class);
 
+    private String basePath;
+
     private static ApplicationConfiguration instance = null;
     public ApplicationConfiguration (Configuration configuration) {
         super(configuration);
@@ -29,14 +31,22 @@ public class ApplicationConfiguration extends ConfigurationMap {
             configuration.load(servletContext.getRealPath(confFilePath));
             ApplicationConfiguration agendaConfiguration = new ApplicationConfiguration(configuration);
             servletContext.setAttribute("configuration", agendaConfiguration);
-
+            agendaConfiguration.setBasePath(servletContext.getContextPath());
         } catch (ConfigurationException e) {
             logger.error("Unable to load agenda configuration file");
             logger.error("Due to this exception:" + e);
         }
     }
 
-    public static Configuration getInstance(){
-        return instance.getConfiguration();
+    public static ApplicationConfiguration getInstance(){
+        return instance;
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
     }
 }

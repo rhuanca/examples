@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.sql.ResultSetMetaData;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.configuration.Configuration;
 import org.apache.log4j.Logger;
 
 /**
@@ -18,13 +20,21 @@ import org.apache.log4j.Logger;
 public class DBConnection {
     private static Logger logger = Logger.getLogger(DBConnection.class);
 
-
+    String name;
     String driverClassName;
     String url;
     String username;
     String password;
 
     DataSource dataSource;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getDriverClassName() {
         return driverClassName;
@@ -79,5 +89,21 @@ public class DBConnection {
             tableNames.add(tableName);
         }
         return tableNames;
+    }
+
+    public List getConnectionItems() throws SQLException {
+        ApplicationConfiguration instance = ApplicationConfiguration.getInstance();
+
+        List connectionItems = new ArrayList();
+        logger.info(">>> getTableNames().size() = " + getTableNames().size());
+        for (Iterator i = getTableNames().iterator(); i.hasNext();) {
+            String tableName = (String) i.next();
+            logger.info(">>> tableName = " + tableName);
+            DBConnectionItem connectionItem = new DBConnectionItem();
+            connectionItem.setTableName(tableName);
+            connectionItem.setWsUrl(instance.getBasePath()+"/services/"+this.getName()+"/"+tableName);
+            connectionItems.add(connectionItem);
+        }
+        return connectionItems;
     }
 }

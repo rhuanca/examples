@@ -3,8 +3,7 @@ package net.sumasoftware.restful.web.controller;
 import org.apache.commons.configuration.Configuration;
 import org.apache.log4j.Logger;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * @author rhuanca
@@ -14,26 +13,33 @@ public class ConnectionManager {
     private static Logger logger = Logger.getLogger(ConnectionManager.class);
     static ConnectionManager instance = null;
 
-    List connections = new ArrayList();
+    TreeMap connections = new TreeMap();
 
-    public void addConnectionProperties(DBConnection DBConnection){
-        connections.add(DBConnection);
+    public void addConnectionProperties(DBConnection dbConnection){
+        connections.put(dbConnection.getName(), dbConnection);
+
     }
 
-    public DBConnection getConnectionProperties(int index){
-        return (DBConnection) connections.get(index);
+    public DBConnection getConnectionProperties(String name){
+        return (DBConnection) connections.get(name);
     }
 
-    public List getConnections() {
-        return connections;
+    public Collection getConnections() {
+        return connections.values();
     }
 
-    public static void loadConnectionProperties(Configuration configuration){
+    public List getConnectionNames(){
+        return new ArrayList(connections.keySet());   
+    }
+
+    
+
+    public static void loadConnectionProperties(ApplicationConfiguration configuration){
         ConnectionManager connectionManager = new ConnectionManager();
         // get connection properties
         int i = 0;
-        while(configuration.getString("jdbc_connection."+i+".driverClassName")!=null) {
-            connectionManager.addConnectionProperties(buildConnectionProperties(configuration, i));
+        while(configuration.getConfiguration().getString("jdbc_connection."+i+".driverClassName")!=null) {
+            connectionManager.addConnectionProperties(buildConnectionProperties(configuration.getConfiguration(), i));
             i++;
         }
         logger.info("Found database connections: " + i);
@@ -41,12 +47,15 @@ public class ConnectionManager {
     }
 
     private static DBConnection buildConnectionProperties(Configuration configuration, int index){
-        DBConnection DBConnection = new DBConnection();
-        DBConnection.setDriverClassName(configuration.getString("jdbc_connection."+index+".driverClassName"));
-        DBConnection.setUrl(configuration.getString("jdbc_connection."+index+".url"));
-        DBConnection.setUsername(configuration.getString("jdbc_connection."+index+".username"));
-        DBConnection.setPassword(configuration.getString("jdbc_connection."+index+".password"));
-        return DBConnection;
+        DBConnection dbConnection = new DBConnection();
+        String connectionName = configuration.getString("jdbc_connection." + index + ".name");
+        dbConnection.setName(connectionName);
+        logger.info("Found connection: " + connectionName);
+        dbConnection.setDriverClassName(configuration.getString("jdbc_connection."+index+".driverClassName"));
+        dbConnection.setUrl(configuration.getString("jdbc_connection."+index+".url"));
+        dbConnection.setUsername(configuration.getString("jdbc_connection."+index+".username"));
+        dbConnection.setPassword(configuration.getString("jdbc_connection."+index+".password"));
+        return dbConnection;
     }
 
     public static ConnectionManager getInstance(){
@@ -55,4 +64,6 @@ public class ConnectionManager {
         }
         return instance;
     }
+
+
 }

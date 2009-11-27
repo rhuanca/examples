@@ -11,6 +11,10 @@
 
     <context:component-scan base-package="net.sumasoftware.restful.web.*"/>
 
+    <!--<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="alwaysUseFullPath" value="true"/>
+    </bean>-->
+
     <!-- message resources -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames" value="application_messages"/>
