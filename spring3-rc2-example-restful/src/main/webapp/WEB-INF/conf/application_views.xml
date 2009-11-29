@@ -11,4 +11,8 @@
         <property name="url" value="/ui/services_index.jsp"/>
     </bean>
 
+    <bean id="tableDetail" class="org.springframework.web.servlet.view.JstlView">
+        <property name="url" value="/ui/table_detail.jsp"/>
+    </bean>
+
 </beans>

@@ -32,8 +32,6 @@ public class ConnectionManager {
         return new ArrayList(connections.keySet());   
     }
 
-    
-
     public static void loadConnectionProperties(ApplicationConfiguration configuration){
         ConnectionManager connectionManager = new ConnectionManager();
         // get connection properties
@@ -50,6 +48,7 @@ public class ConnectionManager {
         DBConnection dbConnection = new DBConnection();
         String connectionName = configuration.getString("jdbc_connection." + index + ".name");
         dbConnection.setName(connectionName);
+        dbConnection.setDescription(configuration.getString("jdbc_connection."+index+".description"));
         logger.info("Found connection: " + connectionName);
         dbConnection.setDriverClassName(configuration.getString("jdbc_connection."+index+".driverClassName"));
         dbConnection.setUrl(configuration.getString("jdbc_connection."+index+".url"));

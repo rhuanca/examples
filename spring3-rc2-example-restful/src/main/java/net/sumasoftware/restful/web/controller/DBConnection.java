@@ -21,6 +21,7 @@ public class DBConnection {
     private static Logger logger = Logger.getLogger(DBConnection.class);
 
     String name;
+    String description;
     String driverClassName;
     String url;
     String username;
@@ -34,6 +35,14 @@ public class DBConnection {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDriverClassName() {
@@ -95,15 +104,42 @@ public class DBConnection {
         ApplicationConfiguration instance = ApplicationConfiguration.getInstance();
 
         List connectionItems = new ArrayList();
-        logger.info(">>> getTableNames().size() = " + getTableNames().size());
         for (Iterator i = getTableNames().iterator(); i.hasNext();) {
             String tableName = (String) i.next();
-            logger.info(">>> tableName = " + tableName);
             DBConnectionItem connectionItem = new DBConnectionItem();
             connectionItem.setTableName(tableName);
             connectionItem.setWsUrl(instance.getBasePath()+"/services/"+this.getName()+"/"+tableName);
             connectionItems.add(connectionItem);
         }
         return connectionItems;
+    }
+
+    public TableDetail getTableColumns(String tableName) throws SQLException {
+
+        TableDetail tableDetail = new TableDetail();
+        tableDetail.setConnectionName(this.getName());
+        tableDetail.setConnectionDescription(this.getDescription());
+        tableDetail.setName(tableName);
+        List tableColumns = new ArrayList();
+
+        Connection connection = this.getDataSource().getConnection();
+        ResultSet columns = connection.getMetaData().getColumns(connection.getCatalog(), null, tableName, null);
+        // 4 = columna name, 5 = type, 6 = type name
+
+        //DBUtils.printRestulSet(columns);
+
+        while(columns.next()){
+            String columnName = columns.getString(4);
+            String columnType = columns.getString(6);
+            TableColumn tableColumn = new TableColumn();
+            tableColumn.setName(columnName);
+            tableColumn.setType(columnType);
+            logger.info(">>> tableColumn.getType() = " + tableColumn.getType());
+            tableColumns.add(tableColumn);
+        }
+
+        tableDetail.setTableColumns(tableColumns);
+        
+        return tableDetail;
     }
 }

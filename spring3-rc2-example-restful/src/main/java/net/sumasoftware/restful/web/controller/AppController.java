@@ -1,13 +1,14 @@
 package net.sumasoftware.restful.web.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.stereotype.Controller;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Iterator;
 
 /**
  * @author Renan Huanca
@@ -21,7 +22,7 @@ public class AppController {
     @RequestMapping("/ui/services/index.do")
     public String init(HttpServletRequest request) {
         ConnectionManager connectionManager = ConnectionManager.getInstance();
-        request.setAttribute("connectionNames", connectionManager.getConnectionNames());
+        request.setAttribute("connections", connectionManager.getConnections());
         return "webServicesList";
     }
 
@@ -31,9 +32,23 @@ public class AppController {
         DBConnection dbConnection = connectionManager.getConnectionProperties(connectionName);
 
         if(dbConnection !=null){
-            request.setAttribute("connectionName", connectionName);
+            request.setAttribute("activeConnection", dbConnection);
             request.setAttribute("connectionItems", dbConnection.getConnectionItems());
         }
         return init(request);
     }
+
+    @RequestMapping("/ui/services/table_detail.do")
+    public String tableDetail(HttpServletRequest request) throws SQLException {
+        String connectionName = request.getParameter("connectionName");
+        String tableName = request.getParameter("tableName");
+        ConnectionManager connectionManager = ConnectionManager.getInstance();
+        DBConnection dbConnection = connectionManager.getConnectionProperties(connectionName);
+
+        TableDetail tableDetail = dbConnection.getTableColumns(tableName);
+
+        request.setAttribute("tableDetail", tableDetail);
+        return "tableDetail";
+    }
+
 }
