@@ -1,9 +1,11 @@
-package net.sumasoftware.restful.web.controller;
+package net.sumasoftware.ws;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+
+import net.sumasoftware.wsui.ApplicationConfiguration;
 
 /**
  * @author rhuanca

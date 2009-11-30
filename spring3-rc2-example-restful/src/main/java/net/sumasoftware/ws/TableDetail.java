@@ -1,4 +1,4 @@
-package net.sumasoftware.restful.web.controller;
+package net.sumasoftware.ws;
 
 import java.util.List;
 

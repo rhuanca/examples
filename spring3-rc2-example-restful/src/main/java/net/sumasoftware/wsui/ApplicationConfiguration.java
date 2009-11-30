@@ -1,4 +1,4 @@
-package net.sumasoftware.restful.web.controller;
+package net.sumasoftware.wsui;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationMap;

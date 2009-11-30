@@ -1,4 +1,4 @@
-package net.sumasoftware.restful.web.controller;
+package net.sumasoftware.ws;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
+import net.sumasoftware.wsui.ApplicationConfiguration;
 
 /**
  * @author Renan Huanca

@@ -1,4 +1,4 @@
-package net.sumasoftware.restful.web.controller;
+package net.sumasoftware.ws;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.Logger;

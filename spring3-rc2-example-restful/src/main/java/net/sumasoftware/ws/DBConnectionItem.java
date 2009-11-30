@@ -1,4 +1,4 @@
-package net.sumasoftware.restful.web.controller;
+package net.sumasoftware.ws;
 
 /**
  * @author Renan Huanca

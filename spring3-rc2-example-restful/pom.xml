@@ -9,6 +9,11 @@
     <url>http://maven.apache.org</url>
 
     <repositories>
+
+        <repository>
+            <id>default maven repository</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
         <repository>
             <id>springsource maven repo</id>
             <url>http://maven.springframework.org/milestone</url>
@@ -113,7 +118,9 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>5.10</version>
+            <version>5.9</version>
+            <classifier>jdk15</classifier>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

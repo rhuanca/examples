@@ -22,7 +22,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextClass</param-name>
-            <param-value>net.sumasoftware.restful.web.controller.ApplicationContext</param-value>
+            <param-value>net.sumasoftware.wsui.ApplicationContext</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

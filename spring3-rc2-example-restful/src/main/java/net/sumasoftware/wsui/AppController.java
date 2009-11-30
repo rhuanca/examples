@@ -1,4 +1,4 @@
-package net.sumasoftware.restful.web.controller;
+package net.sumasoftware.wsui;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -7,8 +7,10 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Iterator;
+
+import net.sumasoftware.ws.ConnectionManager;
+import net.sumasoftware.ws.DBConnection;
+import net.sumasoftware.ws.TableDetail;
 
 /**
  * @author Renan Huanca

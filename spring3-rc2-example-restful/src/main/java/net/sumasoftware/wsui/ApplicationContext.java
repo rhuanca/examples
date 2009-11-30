@@ -1,9 +1,12 @@
-package net.sumasoftware.restful.web.controller;
+package net.sumasoftware.wsui;
 
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContext;
+
+import net.sumasoftware.wsui.ApplicationConfiguration;
+import net.sumasoftware.ws.ConnectionManager;
 
 /**
  * @author Renan Huanca
