@@ -35,7 +35,7 @@ public class ServicesController {
                           HttpServletResponse response) throws IOException, SQLException {
         ConnectionManager connectionManager = ConnectionManager.getInstance();
         DBConnection dbConnection = connectionManager.getConnectionProperties(connectionName);
-        DataSource dataSource = dbConnection.getDataSource();
+        DataSource dataSource = ConnectionFactory.getDataSource(dbConnection);
         response.setContentType("text/xml");
         Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement();
