@@ -47,7 +47,7 @@ public class AppController {
         ConnectionManager connectionManager = ConnectionManager.getInstance();
         DBConnection dbConnection = connectionManager.getConnectionProperties(connectionName);
 
-        TableDetail tableDetail = dbConnection.getTableColumns(tableName);
+        TableDetail tableDetail = dbConnection.getTableDetail(tableName);
 
         request.setAttribute("tableDetail", tableDetail);
         return "tableDetail";

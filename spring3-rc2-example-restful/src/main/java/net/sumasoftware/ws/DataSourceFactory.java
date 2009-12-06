@@ -11,14 +11,17 @@ import java.util.HashMap;
  * @author Renan Huanca
  * @since Nov 30, 2009 7:39:21 AM
  */
-public class ConnectionFactory {
-    private static Logger logger = Logger.getLogger(ConnectionFactory.class);
+public class DataSourceFactory {
+    private static Logger logger = Logger.getLogger(DataSourceFactory.class);
 
-    static Map connections =  new HashMap();
+    static Map<String, BasicDataSource> connections =  new HashMap<String, BasicDataSource>();
 
     public static DataSource getDataSource(DBConnection dbConnection){
-        BasicDataSource dataSource = (BasicDataSource) connections.get(dbConnection.getName());
+        BasicDataSource dataSource = connections.get(dbConnection.getName());
+
         if(dataSource == null){
+            
+            logger.info(">>> creating dataSource");
             dataSource = new BasicDataSource();
             dataSource.setDriverClassName(dbConnection.getDriverClassName());
             dataSource.setUsername(dbConnection.getUsername());

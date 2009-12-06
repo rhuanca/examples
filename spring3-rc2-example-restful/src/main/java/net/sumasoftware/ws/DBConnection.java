@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
+import org.apache.commons.dbcp.BasicDataSource;
 import net.sumasoftware.wsui.ApplicationConfiguration;
 
 /**
@@ -76,13 +77,14 @@ public class DBConnection {
     }
 
    public List getTableNames() throws SQLException {
-        Connection connection = ConnectionFactory.getDataSource(this).getConnection();
+        Connection connection = DataSourceFactory.getDataSource(this).getConnection();
         List tableNames = new ArrayList();
         ResultSet tables = connection.getMetaData().getTables(connection.getCatalog(), null, null, new String[]{"TABLE"});
         while(tables.next()){
             String tableName = tables.getString(3);
             tableNames.add(tableName);
         }
+        connection.close();
         return tableNames;
     }
 
@@ -100,7 +102,7 @@ public class DBConnection {
         return connectionItems;
     }
 
-    public TableDetail getTableColumns(String tableName) throws SQLException {
+    public TableDetail getTableDetail(String tableName) throws SQLException {
 
         TableDetail tableDetail = new TableDetail();
         tableDetail.setConnectionName(this.getName());
@@ -108,7 +110,16 @@ public class DBConnection {
         tableDetail.setName(tableName);
         List tableColumns = new ArrayList();
 
-        Connection connection = ConnectionFactory.getDataSource(this).getConnection();
+        BasicDataSource source = (BasicDataSource)DataSourceFactory.getDataSource(this);
+        Connection connection = source.getConnection();
+//        logger.info(">>> DataSourceFactory.connections.size() = " + DataSourceFactory.connections.size());
+//        logger.info(">>> connection = " + connection);
+//        logger.info(">>> source.hashCode() = " + source.hashCode());
+//        logger.info(">>> source.getNumActive() = " + source.getNumActive());
+//        logger.info(">>> source.getNumIdle() = " + source.getNumIdle());
+//        logger.info(">>> connection.hashCode() = " + connection.hashCode());
+
+        
         ResultSet columns = connection.getMetaData().getColumns(connection.getCatalog(), null, tableName, null);
         // 4 = columna name, 5 = type, 6 = type name
 
@@ -123,6 +134,7 @@ public class DBConnection {
         }
 
         tableDetail.setTableColumns(tableColumns);
+        connection.close();
         return tableDetail;
     }
 }

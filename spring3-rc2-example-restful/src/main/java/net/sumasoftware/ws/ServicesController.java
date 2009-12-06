@@ -35,15 +35,16 @@ public class ServicesController {
                           HttpServletResponse response) throws IOException, SQLException {
         ConnectionManager connectionManager = ConnectionManager.getInstance();
         DBConnection dbConnection = connectionManager.getConnectionProperties(connectionName);
-        DataSource dataSource = ConnectionFactory.getDataSource(dbConnection);
+        DataSource dataSource = DataSourceFactory.getDataSource(dbConnection);
         response.setContentType("text/xml");
         Connection connection = dataSource.getConnection();
+        TableDetail tableDetail = dbConnection.getTableDetail(tableName);
+
         Statement statement = connection.createStatement();
         String columns = request.getParameter("columns");
         String sql = buildQuery(request, tableName, columns, getFilterNames(request));
         logger.info("sql: " + sql);
         ResultSet resultSet = statement.executeQuery(sql);
-        ResultSetMetaData metaData = resultSet.getMetaData();
         PrintWriter writer = response.getWriter();
         writer.print("<result>");
         writer.print("<tableName>");
@@ -52,15 +53,29 @@ public class ServicesController {
         writer.print("<rows>");
         while(resultSet.next()){
             writer.print("<row>");
-            for(int i=0; i<metaData.getColumnCount();i++){
-                writer.print("<"+metaData.getColumnName(i+1)+">");
-                writer.print(resultSet.getString(i+1));
-                writer.print("</"+metaData.getColumnName(i+1)+">");
+            for (Iterator i = tableDetail.getTableColumns().iterator(); i.hasNext();) {
+                TableColumn tableColumn = (TableColumn) i.next();
+                String columnName = tableColumn.getName();
+                String columnType = tableColumn.getType();
+                writer.print("<"+columnName+">");
+                if(columnType.contains("VARCHAR")) {
+                    writer.print(resultSet.getString(columnName));
+                } else if(columnType.contains("DATETIME")) {
+                    if(resultSet.getTimestamp (columnName)!=null){
+//                        writer.print(resultSet.getTimestamp (columnName));
+                        writer.print(resultSet.getObject(columnName));
+                    }
+                } else {
+                    writer.print(resultSet.getObject(columnName));
+                }
+
+                writer.print("</"+columnName+">");
             }
             writer.print("</row>");
         }
         writer.print("</rows>");
         writer.print("</result>");
+        connection.close();
     }
 
     private List getFilterNames(HttpServletRequest request) {
