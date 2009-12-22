@@ -27,7 +27,6 @@ import java.sql.*;
 public class ServicesController {
     private static Logger logger = Logger.getLogger(ServicesController.class);
 
-
     @RequestMapping("/{connectionName}/{tableName}")
     public void readTable(@PathVariable String connectionName,
                           @PathVariable String tableName,
@@ -42,22 +41,28 @@ public class ServicesController {
 
         Statement statement = connection.createStatement();
         String columns = request.getParameter("columns");
+        String dataSetName = request.getParameter("dataSetName");
+        if(StringUtils.isEmpty(dataSetName)){
+            dataSetName = "data";
+        }
         String sql = buildQuery(request, tableName, columns, getFilterNames(request));
         logger.info("sql: " + sql);
         ResultSet resultSet = statement.executeQuery(sql);
         PrintWriter writer = response.getWriter();
-        writer.print("<result>");
-        writer.print("<tableName>");
-        writer.print(tableName);
-        writer.print("</tableName>");
-        writer.print("<rows>");
+        writer.println("<data>");
+        writer.println("<variable name=\""+dataSetName+"\">");
+//        writer.print("<tableName>");
+//        writer.print(tableName);
+//        writer.print("</tableName>");
+//        writer.print("<rows>");
         while(resultSet.next()){
-            writer.print("<row>");
+            writer.println("<row>");
             for (Iterator i = tableDetail.getTableColumns().iterator(); i.hasNext();) {
                 TableColumn tableColumn = (TableColumn) i.next();
                 String columnName = tableColumn.getName();
                 String columnType = tableColumn.getType();
-                writer.print("<"+columnName+">");
+//                writer.print("<"+columnName+">");
+                writer.print("<column>");
                 if(columnType.contains("VARCHAR")) {
                     writer.print(resultSet.getString(columnName));
                 } else if(columnType.contains("DATETIME")) {
@@ -69,12 +74,13 @@ public class ServicesController {
                     writer.print(resultSet.getObject(columnName));
                 }
 
-                writer.print("</"+columnName+">");
+                writer.println("</column>");
             }
-            writer.print("</row>");
+            writer.println("</row>");
         }
-        writer.print("</rows>");
-        writer.print("</result>");
+//        writer.print("</rows>");
+        writer.println("</variable>");
+        writer.println("</data>");
         connection.close();
     }
 
@@ -109,9 +115,11 @@ public class ServicesController {
         String where = "";
         for (Iterator i = filterNames.iterator(); i.hasNext();) {
             String columnName = (String) i.next();
-            where += columnName + " = '" + request.getParameter(columnName) + "'";
-            if(i.hasNext()) {
-                where += " and ";
+            if(!columnName.equalsIgnoreCase("dataSetName")){
+                where += columnName + " = '" + request.getParameter(columnName) + "'";
+                if(i.hasNext()) {
+                    where += " and ";
+                }
             }
         }
 

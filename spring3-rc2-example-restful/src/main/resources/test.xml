@@ -1,0 +1,11 @@
+<HolidayRequest xmlns="http://localhost/schemas">
+    <Holiday>
+        <StartDate>101010</StartDate>
+        <EndDate>121212</EndDate>
+    </Holiday>
+    <Employee>
+        <Number>2</Number>
+        <FirstName>n1234</FirstName>
+        <LastName>n1234</LastName>
+    </Employee>
+</HolidayRequest>
