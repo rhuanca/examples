@@ -1,0 +1,24 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:hr="http://mycompany.com/hr/schemas"
+        elementFormDefault="qualified"
+        targetNamespace="http://mycompany.com/hr/schemas">
+    <xs:element name="BIRequest">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="tablename" type="xs:string"/>
+                <xs:element name="connection" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="BIResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="table" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    
+
+</xs:schema>
