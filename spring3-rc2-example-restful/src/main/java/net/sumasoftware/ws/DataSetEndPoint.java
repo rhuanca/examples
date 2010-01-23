@@ -7,6 +7,9 @@ import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
 import org.apache.log4j.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+
 
 /**
  * @author Renan Huanca
@@ -17,23 +20,26 @@ public class DataSetEndPoint extends AbstractJDomPayloadEndpoint {
     private static Logger logger = Logger.getLogger(DataSetEndPoint.class);
 
     protected Element invokeInternal(Element element) throws Exception {
-//        Namespace namespace = Namespace.getNamespace("bis", "http://localhost/bis/schemas");
-        
-        logger.info("element = " + element);
-
         XMLOutputter out = new XMLOutputter();
+        System.out.println("Given XML:");
         out.output(element, System.out);
-        
-        logger.info(">>> 1- element = " + element.toString());
         XPath connectionExpression = XPath.newInstance("//connection");
         XPath tablenameExpression = XPath.newInstance("//tablename");
-//        connectionExpression.addNamespace(namespace);
-//        tablenameExpression.addNamespace(namespace);
-
-        logger.info(">>> antes de realizar calculo...");
-
         String connection = connectionExpression.valueOf(element);
         String tablename = tablenameExpression.valueOf(element);
+
+        DataRetriever dataRetriever = new DataRetriever();
+
+        System.out.println(">>> antes de obtener datos...." );
+        String xml = dataRetriever.retrieve(connection,
+                tablename,
+                null,
+                "data",
+                new HashMap(),
+                new ArrayList());
+
+
+        System.out.println(">>> xml = " + xml);
 
         System.out.println(">>> tablename = " + tablename);
         System.out.println(">>> connection = " + connection);
@@ -47,4 +53,6 @@ public class DataSetEndPoint extends AbstractJDomPayloadEndpoint {
         element2.addContent(row);
         return element2;
     }
+
+
 }

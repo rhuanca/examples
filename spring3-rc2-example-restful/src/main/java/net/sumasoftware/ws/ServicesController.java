@@ -10,10 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Enumeration;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
@@ -32,49 +29,16 @@ public class ServicesController {
                           @PathVariable String tableName,
                           HttpServletRequest request,
                           HttpServletResponse response) throws IOException, SQLException {
-        ConnectionManager connectionManager = ConnectionManager.getInstance();
-        DBConnection dbConnection = connectionManager.getConnectionProperties(connectionName);
-        DataSource dataSource = DataSourceFactory.getDataSource(dbConnection);
-        response.setContentType("text/xml");
-        Connection connection = dataSource.getConnection();
-        TableDetail tableDetail = dbConnection.getTableDetail(tableName);
 
-        Statement statement = connection.createStatement();
-        String columns = request.getParameter("columns");
-        String dataSetName = request.getParameter("dataSetName");
-        if(StringUtils.isEmpty(dataSetName)){
-            dataSetName = "data";
-        }
-        String sql = buildQuery(request, tableName, columns, getFilterNames(request));
-        logger.info("sql: " + sql);
-        ResultSet resultSet = statement.executeQuery(sql);
-        PrintWriter writer = response.getWriter();
-        writer.println("<data>");
-        writer.println("<variable name=\""+dataSetName+"\">");
-        while(resultSet.next()){
-            writer.println("<row>");
-            for (Iterator i = tableDetail.getTableColumns().iterator(); i.hasNext();) {
-                TableColumn tableColumn = (TableColumn) i.next();
-                String columnName = tableColumn.getName();
-                String columnType = tableColumn.getType();
-                writer.print("<column>");
-                if(columnType.contains("VARCHAR")) {
-                    writer.print(resultSet.getString(columnName));
-                } else if(columnType.contains("DATETIME")) {
-                    if(resultSet.getTimestamp (columnName)!=null){
-                        writer.print(resultSet.getObject(columnName));
-                    }
-                } else {
-                    writer.print(resultSet.getObject(columnName));
-                }
+        DataRetriever dataRetriever = new DataRetriever();
+        dataRetriever.retrieve(connectionName,
+                tableName,
+                request.getParameter("columns"),
+                request.getParameter("dataSetName"),
+                requestToMap(request),
+                getFilterNames(request));
 
-                writer.println("</column>");
-            }
-            writer.println("</row>");
-        }
-        writer.println("</variable>");
-        writer.println("</data>");
-        connection.close();
+
     }
 
     private List getFilterNames(HttpServletRequest request) {
@@ -89,33 +53,16 @@ public class ServicesController {
         return filterNames;
     }
 
-    private String buildQuery(HttpServletRequest request, String tableName, String columns, List filterNames){
-        // build select
-        String selectedColumns = "*";
-        if(StringUtils.isNotEmpty(columns) && columns.indexOf(",")!=-1){
-            String[] columnNames = columns.split(",");
-            selectedColumns = "";
-            for (int i = 0; i < columnNames.length; i++) {
-                String columnName = columnNames[i];
-                selectedColumns += columnName;
-                if (i<columnNames.length-1) {
-                    selectedColumns+=", ";
-                }
-            }
-        }
+    private Map requestToMap(HttpServletRequest request){
+        HashMap hashMap = new HashMap();
 
-        // build where
-        String where = "";
-        for (Iterator i = filterNames.iterator(); i.hasNext();) {
-            String columnName = (String) i.next();
-            if(!columnName.equalsIgnoreCase("dataSetName")){
-                where += columnName + " = '" + request.getParameter(columnName) + "'";
-                if(i.hasNext()) {
-                    where += " and ";
-                }
-            }
+        Enumeration parameterNames = request.getParameterNames();
+        while(parameterNames.hasMoreElements()){
+            String parameterName = (String) parameterNames.nextElement();
+            hashMap.put(parameterName, requestToMap(request));
         }
-
-        return "select "+selectedColumns + " from "+ tableName + (StringUtils.isNotEmpty(where)? " where " + where:"");
+        return hashMap;
     }
+
+
 }

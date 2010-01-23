@@ -7,17 +7,7 @@
 
     <display-name>BI Services</display-name>
 
-    <!--<context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/mytest-servlet.xml</param-value>
-    </context-param>
-
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>-->
-
-    
-    <!--<servlet>
+    <servlet>
         <servlet-name>mytest</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
@@ -33,27 +23,12 @@
 
         <url-pattern>*.do</url-pattern>
         <url-pattern>/services/*</url-pattern>
-    </servlet-mapping>-->
+    </servlet-mapping>
 
-    <!--<servlet>
-        <display-name>CXF Servlet</display-name>
-        <servlet-name>CXFServlet</servlet-name>
-        <servlet-class>
-            org.apache.cxf.transport.servlet.CXFServlet
-        </servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>-->
-
-    <!--<servlet-mapping>
-		<servlet-name>CXFServlet</servlet-name>
-		<url-pattern>/ws2/*</url-pattern>
-	</servlet-mapping>-->
-
-
-    <!--<context-param>
+    <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>WEB-INF/conf/application_config.properties</param-value>
-    </context-param>-->
+    </context-param>
 
     <servlet>
         <servlet-name>spring-ws</servlet-name>
@@ -62,7 +37,7 @@
 
     <servlet-mapping>
         <servlet-name>spring-ws</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/ws/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

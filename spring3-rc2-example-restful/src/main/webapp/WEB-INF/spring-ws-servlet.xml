@@ -10,6 +10,8 @@
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 
+    <context:component-scan base-package="net.sumasoftware.*"/>
+
     <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
         <property name="mappings">
             <props>
@@ -32,8 +34,8 @@
         <property name="schema" ref="schema"/>
         <property name="portTypeName" value="dataseEndpoint"/>
 
-        <property name="locationUri" value="http://localhost:8080/bis/dataService/"/>
-        <property name="targetNamespace" value="http://localhost/bis/definitions"/>
+        <property name="locationUri" value="http://localhost:8080/bis/ws/dataService/"/>
+        <property name="targetNamespace" value="http://localhost/bis/ws/definitions"/>
     </bean>
 
 </beans>
