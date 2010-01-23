@@ -31,13 +31,14 @@ public class ServicesController {
                           HttpServletResponse response) throws IOException, SQLException {
 
         DataRetriever dataRetriever = new DataRetriever();
-        dataRetriever.retrieve(connectionName,
+        response.setContentType("text/xml");
+        String xml = dataRetriever.retrieve(connectionName,
                 tableName,
                 request.getParameter("columns"),
                 request.getParameter("dataSetName"),
                 requestToMap(request),
                 getFilterNames(request));
-
+        response.getWriter().print(xml);
 
     }
 
