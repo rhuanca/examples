@@ -24,6 +24,8 @@ public class HolidayEndpoint extends AbstractJDomPayloadEndpoint{
         private final HumanResourceService humanResourceService;
 
         public HolidayEndpoint(HumanResourceService humanResourceService) throws JDOMException {
+            System.out.println(">>> entro........HolidayEndpoint");
+            logger.info(">>> entro........HolidayEndpoint");
             this.humanResourceService = humanResourceService;
             Namespace namespace = Namespace.getNamespace("hr", "http://mycompany.com/hr/schemas");
             startDateExpression = XPath.newInstance("//hr:StartDate");
@@ -35,6 +37,8 @@ public class HolidayEndpoint extends AbstractJDomPayloadEndpoint{
         }
 
         protected Element invokeInternal(Element holidayRequest) throws Exception {
+            System.out.println(">>> entro........invokeInternal");
+            logger.info(">>> entro........invokeInternal");
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date startDate = dateFormat.parse(startDateExpression.valueOf(holidayRequest));
             Date endDate = dateFormat.parse(endDateExpression.valueOf(holidayRequest));

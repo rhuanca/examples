@@ -1,35 +1,46 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:hr="http://mycompany.com/hr/schemas"
         elementFormDefault="qualified"
-        targetNamespace="http://localhost/schemas"
-        xmlns:hr="http://localhost/schemas">
+        targetNamespace="http://mycompany.com/hr/schemas">
     <xs:element name="HolidayRequest">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="hr:Holiday"/>
-                <xs:element ref="hr:Employee"/>
-            </xs:sequence>
+            <xs:all>
+                <xs:element name="Holiday" type="hr:HolidayType"/>
+                <xs:element name="Employee" type="hr:EmployeeType"/>
+                <xs:element name="Employee3" type="hr:EmployeeType2"/>
+                <xs:element name="Employee4" type="hr:EmployeeType4"/>
+            </xs:all>
         </xs:complexType>
     </xs:element>
-    <xs:element name="Holiday">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="hr:StartDate"/>
-                <xs:element ref="hr:EndDate"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="StartDate" type="xs:NMTOKEN"/>
-    <xs:element name="EndDate" type="xs:NMTOKEN"/>
-    <xs:element name="Employee">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="hr:Number"/>
-                <xs:element ref="hr:FirstName"/>
-                <xs:element ref="hr:LastName"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="Number" type="xs:integer"/>
-    <xs:element name="FirstName" type="xs:NCName"/>
-    <xs:element name="LastName" type="xs:NCName"/>
+    <xs:complexType name="HolidayType">
+        <xs:sequence>
+            <xs:element name="StartDate" type="xs:date"/>
+            <xs:element name="EndDate" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="EmployeeType">
+        <xs:sequence>
+            <xs:element name="Number" type="xs:integer"/>
+            <xs:element name="FirstName" type="xs:string"/>
+            <xs:element name="LastName" type="xs:string"/>
+            <xs:element name="test" type="hr:EmployeeType2"/>
+        </xs:sequence>                                                                   
+    </xs:complexType>
+    <xs:complexType name="EmployeeType2">
+        <xs:sequence>
+            <xs:element name="Number" type="xs:integer"/>
+            <xs:element name="FirstName" type="xs:string"/>
+            <xs:element name="LastName" type="hr:EmployeeType4"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="EmployeeType4">
+        <xs:sequence>
+            <xs:element name="Number" type="xs:integer"/>
+
+        </xs:sequence>
+    </xs:complexType>
+
+
+
 </xs:schema>

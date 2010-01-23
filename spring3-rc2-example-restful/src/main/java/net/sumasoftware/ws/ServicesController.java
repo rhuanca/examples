@@ -51,23 +51,17 @@ public class ServicesController {
         PrintWriter writer = response.getWriter();
         writer.println("<data>");
         writer.println("<variable name=\""+dataSetName+"\">");
-//        writer.print("<tableName>");
-//        writer.print(tableName);
-//        writer.print("</tableName>");
-//        writer.print("<rows>");
         while(resultSet.next()){
             writer.println("<row>");
             for (Iterator i = tableDetail.getTableColumns().iterator(); i.hasNext();) {
                 TableColumn tableColumn = (TableColumn) i.next();
                 String columnName = tableColumn.getName();
                 String columnType = tableColumn.getType();
-//                writer.print("<"+columnName+">");
                 writer.print("<column>");
                 if(columnType.contains("VARCHAR")) {
                     writer.print(resultSet.getString(columnName));
                 } else if(columnType.contains("DATETIME")) {
                     if(resultSet.getTimestamp (columnName)!=null){
-//                        writer.print(resultSet.getTimestamp (columnName));
                         writer.print(resultSet.getObject(columnName));
                     }
                 } else {
@@ -78,7 +72,6 @@ public class ServicesController {
             }
             writer.println("</row>");
         }
-//        writer.print("</rows>");
         writer.println("</variable>");
         writer.println("</data>");
         connection.close();
