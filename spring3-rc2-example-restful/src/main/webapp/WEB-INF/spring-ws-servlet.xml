@@ -14,34 +14,12 @@
         <property name="mappings">
             <props>
                 <prop key="{http://mycompany.com/hr/schemas}BIRequest">datasetEndpoint</prop>
-                <prop key="{http://mycompany.com/hr/schemas}HolidayRequest">holidayEndpoint</prop>
             </props>
         </property>
         <property name="interceptors">
             <bean class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor"/>
         </property>
     </bean>
-
-
-    <!-- hr service -->
-
-    <bean id="holidayEndpoint" class="net.sumasoftware.ws.HolidayEndpoint">
-        <constructor-arg ref="hrService"/>
-    </bean>
-
-    <bean id="hrService" class="net.sumasoftware.ws.HumanResourceService"/>
-
-    <bean id="schema2" class="org.springframework.xml.xsd.SimpleXsdSchema">
-        <property name="xsd" value="/WEB-INF/hr.xsd"/>
-    </bean>
-
-    <bean id="holiday" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
-        <property name="schema" ref="schema2"/>
-        <property name="portTypeName" value="HumanResource"/>
-        <property name="locationUri" value="http://localhost:8080/bis/holidayService/"/>
-        <property name="targetNamespace" value="http://mycompany.com/hr/definitions"/>
-    </bean>
-
 
     <!-- data service -->
     <bean id="datasetEndpoint" class="net.sumasoftware.ws.DataSetEndPoint"/>
