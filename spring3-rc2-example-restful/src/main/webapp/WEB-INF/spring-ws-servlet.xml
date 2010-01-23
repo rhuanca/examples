@@ -13,7 +13,7 @@
     <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootQNameEndpointMapping">
         <property name="mappings">
             <props>
-                <prop key="{http://localhost/bis/schemas}BisRequest">datasetEndpoint</prop>
+                <prop key="{http://mycompany.com/hr/schemas}BIRequest">datasetEndpoint</prop>
                 <prop key="{http://mycompany.com/hr/schemas}HolidayRequest">holidayEndpoint</prop>
             </props>
         </property>

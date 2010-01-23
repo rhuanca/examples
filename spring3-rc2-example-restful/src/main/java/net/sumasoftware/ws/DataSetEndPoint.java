@@ -3,6 +3,7 @@ package net.sumasoftware.ws;
 import org.springframework.ws.server.endpoint.AbstractJDomPayloadEndpoint;
 import org.jdom.Element;
 import org.jdom.Namespace;
+import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
 import org.apache.log4j.Logger;
 
@@ -16,12 +17,18 @@ public class DataSetEndPoint extends AbstractJDomPayloadEndpoint {
     private static Logger logger = Logger.getLogger(DataSetEndPoint.class);
 
     protected Element invokeInternal(Element element) throws Exception {
-        Namespace namespace = Namespace.getNamespace("bis", "http://localhost/bis/schemas");
+//        Namespace namespace = Namespace.getNamespace("bis", "http://localhost/bis/schemas");
+        
+        logger.info("element = " + element);
+
+        XMLOutputter out = new XMLOutputter();
+        out.output(element, System.out);
+        
         logger.info(">>> 1- element = " + element.toString());
-        XPath connectionExpression = XPath.newInstance("//bis:connection");
-        XPath tablenameExpression = XPath.newInstance("//bis:tablename");
-        connectionExpression.addNamespace(namespace);
-        tablenameExpression.addNamespace(namespace);
+        XPath connectionExpression = XPath.newInstance("//connection");
+        XPath tablenameExpression = XPath.newInstance("//tablename");
+//        connectionExpression.addNamespace(namespace);
+//        tablenameExpression.addNamespace(namespace);
 
         logger.info(">>> antes de realizar calculo...");
 
@@ -32,10 +39,10 @@ public class DataSetEndPoint extends AbstractJDomPayloadEndpoint {
         System.out.println(">>> connection = " + connection);
 
         Element element2 = new Element("table");
-        element2.setNamespace(namespace);
+//        element2.setNamespace(namespace);
 
         Element row = new Element("row");
-        row.setNamespace(namespace);
+//        row.setNamespace(namespace);
 
         element2.addContent(row);
         return element2;

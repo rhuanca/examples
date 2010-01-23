@@ -23,18 +23,5 @@
         <property name="location" value="WEB-INF/conf/application_views.xml"/>
     </bean>
 
-    <!--<import resource="classpath:META-INF/cxf/cxf.xml" />
-    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />-->
-
-    <!--<jaxws:endpoint
-      id="helloWorld"
-      implementor="net.sumasoftware.ws.HelloWorldImpl"
-      address="/HelloWorld" />-->
-
-    <!--<jaxws:client id="helloClient"
-                     serviceClass="net.sumasoftware.ws.HelloWorld"
-                     address="http://localhost:9002/HelloWorld" />-->
-
-
+ 
 </beans>
