@@ -12,10 +12,10 @@
     <xs:element name="BIResponse">
         <xs:complexType>
             <xs:all>
-                <xs:element name="table">
+                <xs:element name="data">
                     <xs:complexType>
                         <xs:all>
-                            <xs:element name="row"/>
+                            <xs:element name="variable"/>
                         </xs:all>
                     </xs:complexType>
                 </xs:element>

@@ -1,14 +1,17 @@
 package net.sumasoftware.ws;
 
 import org.springframework.ws.server.endpoint.AbstractJDomPayloadEndpoint;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
+import org.jdom.Element;
+import org.jdom.Document;
+import org.jdom.Namespace;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.io.ByteArrayInputStream;
 
 
 /**
@@ -44,15 +47,13 @@ public class DataSetEndPoint extends AbstractJDomPayloadEndpoint {
         System.out.println(">>> tablename = " + tablename);
         System.out.println(">>> connection = " + connection);
 
-        Element element2 = new Element("table");
-//        element2.setNamespace(namespace);
+//        Element element1 = new Element(xml);
 
-        Element row = new Element("row");
-//        row.setNamespace(namespace);
+        SAXBuilder builder = new SAXBuilder();
+        Document document = builder.build(new ByteArrayInputStream(xml.getBytes()));
 
-        element2.addContent(row);
-        return element2;
+        System.out.println(">>> XML Output:");
+        out.output(document.getRootElement(), System.out);
+        return document.getRootElement().setNamespace(Namespace.getNamespace("http://mycompany.com/hr/schemas"));
     }
-
-
 }
