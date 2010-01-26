@@ -44,6 +44,7 @@ public class DataRetriever {
         System.out.println(">>> sql = " + sql);
         ResultSet resultSet = statement.executeQuery(sql);
 
+//        writer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         writer.println("<data>");
         writer.println("<variable name=\"" + dataSetName + "\">");
         while (resultSet.next()) {

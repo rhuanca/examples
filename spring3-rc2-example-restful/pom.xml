@@ -75,7 +75,7 @@
         </dependency>
 
         <!-- xerces -->
-        <dependency>
+       <!-- <dependency>
             <groupId>xerces</groupId>
             <artifactId>xerces</artifactId>
             <version>2.4.0</version>
@@ -85,13 +85,20 @@
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
             <version>2.7.1</version>
-        </dependency>
+        </dependency>-->
 
         <!-- jdom -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.jdom</groupId>
             <artifactId>jdom</artifactId>
             <version>1.1</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>saaj-api</artifactId>
+            <version>1.3</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>

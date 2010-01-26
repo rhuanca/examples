@@ -1,35 +1,54 @@
 package net.sumasoftware.ws;
 
 import org.springframework.ws.server.endpoint.AbstractJDomPayloadEndpoint;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.XMLOutputter;
-import org.jdom.xpath.XPath;
-import org.jdom.Element;
-import org.jdom.Document;
-import org.jdom.Namespace;
+import org.springframework.ws.server.endpoint.AbstractDomPayloadEndpoint;
 import org.apache.log4j.Logger;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.jdom.xpath.XPath;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.dom.DOMSource;
 import java.util.*;
 import java.io.ByteArrayInputStream;
+import java.io.OutputStream;
 
 
 /**
  * @author Renan Huanca
  * @since Dec 21, 2009 10:55:17 PM
- */
-public class DataSetEndPoint extends AbstractJDomPayloadEndpoint {
+ */                                   
+public class DataSetEndPoint extends AbstractDomPayloadEndpoint {
 
     private static Logger logger = Logger.getLogger(DataSetEndPoint.class);
 
-    protected Element invokeInternal(Element element) throws Exception {
-        XMLOutputter out = new XMLOutputter();
-        System.out.println("Given XML:");
-        out.output(element, System.out);
+
+    protected Element invokeInternal(Element element, Document document) throws Exception {
+
+
+        System.out.println(">>> entro.....");
+//        Element responseElement = document.createElementNS("http://mycompany.com/hr/schemas", "response");
+//        Element responseElement = document.createElementNS("http://samples", "response");
+
+//        XMLOutputter out = new XMLOutputter();
+//        System.out.println("Given XML:");
+//        out.output(element, System.out);
         XPath connectionExpression = XPath.newInstance("//connection");
         XPath tablenameExpression = XPath.newInstance("//tablename");
-        String connection = connectionExpression.valueOf(element);
-        String tablename = tablenameExpression.valueOf(element);
+
+//        String connection = connectionExpression.valueOf(element);
+//        String tablename = tablenameExpression.valueOf(element);
+        String connection = "conn0";
+        String tablename = "ventas2";
 
         DataRetriever dataRetriever = new DataRetriever();
 
@@ -41,19 +60,31 @@ public class DataSetEndPoint extends AbstractJDomPayloadEndpoint {
                 new HashMap(),
                 new ArrayList());
 
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document document1 = documentBuilder.parse(new ByteArrayInputStream(xml.getBytes()));
 
-        System.out.println(">>> xml = " + xml);
-
-        System.out.println(">>> tablename = " + tablename);
-        System.out.println(">>> connection = " + connection);
-
-//        Element element1 = new Element(xml);
-
-        SAXBuilder builder = new SAXBuilder();
-        Document document = builder.build(new ByteArrayInputStream(xml.getBytes()));
-
-        System.out.println(">>> XML Output:");
-        out.output(document.getRootElement(), System.out);
-        return document.getRootElement().setNamespace(Namespace.getNamespace("http://mycompany.com/hr/schemas"));
+        return document1.getDocumentElement();
     }
+
+    public void serialize(Document doc, OutputStream out) throws Exception {
+
+        TransformerFactory tfactory = TransformerFactory.newInstance();
+        Transformer serializer;
+        try {
+            serializer = tfactory.newTransformer();
+            //Setup indenting to "pretty print"
+            serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+            serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+            serializer.transform(new DOMSource(doc), new StreamResult(out));
+        } catch (TransformerException e) {
+            // this is fatal, just dump the stack and throw a runtime exception
+            e.printStackTrace();
+
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
 }
