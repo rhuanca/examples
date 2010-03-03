@@ -1,0 +1,31 @@
+<s:element name="BIResponse">
+
+        <s:complexType>
+            <s:all>
+                <s:element name="table">
+                    <s:complexType>
+                        <s:all>
+<!--
+                            <s:element name="variable">
+                                <s:complexType>
+                                    <s:all>
+-->
+                                        <s:element name="row" minOccurs="0">
+                                            <s:complexType>
+                                                <s:all>
+                                                    <s:element name="mes" type="s:string"/>
+                                                    <s:element name="monto" type="s:string"/>
+                                                </s:all>
+                                            </s:complexType>
+                                        </s:element>
+<!--
+                                    </s:all>
+                                </s:complexType>
+                            </s:element>
+-->
+                        </s:all>
+                    </s:complexType>
+                </s:element>
+            </s:all>
+        </s:complexType>
+    </s:element>

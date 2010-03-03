@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:sch="http://localhost/bis/ws/definitions" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://localhost/bis/ws/definitions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  targetNamespace="http://localhost/bis/ws/definitions">
+    <wsdl:types>
+        <s:schema xmlns:s="http://www.w3.org/2001/XMLSchema" targetNamespace="http://localhost/bis/ws/definitions">
+
+            <s:element name="BIRequest">
+                <s:complexType>
+                    <s:all>
+                        <s:element name="tablename" type="s:string"/>
+                        <s:element name="connection" type="s:string"/>
+                    </s:all>
+
+                </s:complexType>
+            </s:element>
+
+            <s:element name="BIResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element maxOccurs="1" minOccurs="0" name="BIResult" type="tns:ArrayOfBIReturn"/>
+                    </s:sequence>
+                </s:complexType>
+
+            </s:element>
+
+            <s:complexType name="ArrayOfBIReturn">
+                <s:sequence>
+                    <s:element maxOccurs="unbounded" minOccurs="0" name="BIReturn" nillable="true"
+                               type="tns:BIReturn"/>
+                </s:sequence>
+            </s:complexType>
+            <s:complexType name="ventas2Return">
+                <s:sequence>
+
+                    <s:element maxOccurs="1" minOccurs="1" name="Success" type="s:boolean"/>
+                    <s:element maxOccurs="1" minOccurs="0" name="Message" type="s:string"/>
+                    <s:element maxOccurs="1" minOccurs="0" name="Records" type="tns:ArrayOfVentas2Row"/>
+                </s:sequence>
+            </s:complexType>
+            <s:complexType name="ArrayOfVentas2Row">
+                <s:sequence>
+                    <s:element maxOccurs="unbounded" minOccurs="0" name="ventas2Row" nillable="true"
+                               type="tns:ventas2Row"/>
+                </s:sequence>
+
+            </s:complexType>
+            <s:complexType name="BIRow">
+                <s:sequence>
+                    <s:element maxOccurs="1" minOccurs="0" name="Mes" type="s:string"/>
+                    <s:element maxOccurs="1" minOccurs="1" name="Monto" type="s:int"/>
+                </s:sequence>
+            </s:complexType>
+        </s:schema>
+    </wsdl:types>
+    <wsdl:message name="BIRequest">
+        <wsdl:part element="tns:BIRequest" name="BIRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="BIResponse">
+        <wsdl:part element="tns:BIResponse" name="BIResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="dataseEndpoint">
+        <wsdl:operation name="BI">
+            <wsdl:input message="tns:BIRequest" name="BIRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:BIResponse" name="BIResponse">
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="dataseEndpointSoap11" type="tns:dataseEndpoint">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="BI">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="BIRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="BIResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="dataseEndpointService">
+        <wsdl:port binding="tns:dataseEndpointSoap11" name="dataseEndpointSoap11">
+            <!--<soap:address location="http://localhost:8080/bis/ws/dataService/"/>-->
+            <soap:address location="http://localhost:8080/bis/myws"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

@@ -3,11 +3,8 @@ package net.sumasoftware.ws;
 import org.springframework.ws.server.endpoint.AbstractJDomPayloadEndpoint;
 import org.springframework.ws.server.endpoint.AbstractDomPayloadEndpoint;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.jdom.xpath.XPath;
+import org.w3c.dom.*;
+//import org.jdom.xpath.XPath;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
@@ -27,63 +24,91 @@ import java.io.OutputStream;
  * @author Renan Huanca
  * @since Dec 21, 2009 10:55:17 PM
  */                                   
-public class DataSetEndPoint extends AbstractDomPayloadEndpoint {
+public class DataSetEndPoint extends AbstractDomPayloadEndpoint  {
 
     private static Logger logger = Logger.getLogger(DataSetEndPoint.class);
 
 
-    protected Element invokeInternal(Element element, Document document) throws Exception {
-
-
-        System.out.println(">>> entro.....");
-//        Element responseElement = document.createElementNS("http://mycompany.com/hr/schemas", "response");
-//        Element responseElement = document.createElementNS("http://samples", "response");
-
-//        XMLOutputter out = new XMLOutputter();
-//        System.out.println("Given XML:");
-//        out.output(element, System.out);
-        XPath connectionExpression = XPath.newInstance("//connection");
-        XPath tablenameExpression = XPath.newInstance("//tablename");
-
-//        String connection = connectionExpression.valueOf(element);
-//        String tablename = tablenameExpression.valueOf(element);
-        String connection = "conn0";
-        String tablename = "ventas2";
-
-        DataRetriever dataRetriever = new DataRetriever();
-
-        System.out.println(">>> antes de obtener datos...." );
-        String xml = dataRetriever.retrieve(connection,
-                tablename,
-                null,
-                "data",
-                new HashMap(),
-                new ArrayList());
-
-        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document document1 = documentBuilder.parse(new ByteArrayInputStream(xml.getBytes()));
-
-        return document1.getDocumentElement();
-    }
-
-    public void serialize(Document doc, OutputStream out) throws Exception {
-
-        TransformerFactory tfactory = TransformerFactory.newInstance();
-        Transformer serializer;
+    /*protected Element invokeInternal(Element element, Document document) throws Exception {
         try {
-            serializer = tfactory.newTransformer();
-            //Setup indenting to "pretty print"
-            serializer.setOutputProperty(OutputKeys.INDENT, "yes");
-            serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            XPathReader reader = new XPathReader(element);
 
-            serializer.transform(new DOMSource(doc), new StreamResult(out));
-        } catch (TransformerException e) {
-            // this is fatal, just dump the stack and throw a runtime exception
-            e.printStackTrace();
+            System.out.println("Invoking web service....");
+            System.out.println(">>> element = " + element.getTextContent());
 
-            throw new RuntimeException(e);
+            XMLUtils.serialize(element.getOwnerDocument(), System.out);
+            XMLUtils.serialize(document, System.out);
+
+            String connection = "conn0"; //reader.readNotEmptyNode("//connection");
+            String tablename = "ventas2"; //reader.readNotEmptyNode("//tablename");
+
+            DataRetriever dataRetriever = new DataRetriever();
+
+            String xml = dataRetriever.retrieve2(connection,
+                    tablename,
+                    null,
+                    "data",
+                    new HashMap(),
+                    new ArrayList());
+
+            DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+
+            Document response = documentBuilder.parse(new ByteArrayInputStream(xml.getBytes()));
+            response.createAttributeNS("http://localhost/bis/ws/myws", "myws");
+            return response.getDocumentElement();
+        }  catch (Exception e) {
+           e.printStackTrace();
         }
+        return null;
+    }*/
+
+    protected Element invokeInternal(
+            Element requestElement,
+            Document document) throws Exception {
+        String requestText = requestElement.getTextContent();
+        Random r = new Random();
+
+        String[] messes = new String[]{"enero","febrero","marzo","abril","mayo","junio"};
+        Element element = document.createElementNS("http://localhost/bis/ws/myws", "BIResponse");
+
+
+
+        Element ventas2Result = document.createElement("BIResult");
+        Element ventas2Return = document.createElement("BIReturn");
+
+
+
+        Element success = document.createElement("Success");
+        success.setTextContent("true");
+        Element message = document.createElement("Message");
+        message.setTextContent("Haber que pasa ahora");
+
+        ventas2Return.appendChild(success);
+        ventas2Return.appendChild(message);
+        Element records = document.createElement("Records");
+        for (int i = 0; i < messes.length; i++) {
+            Element ventas2Row = document.createElement("BIRow");
+            String mess = messes[i];
+            Element mes = document.createElement("Mes");
+            mes.setTextContent("enero");
+            Element monto = document.createElement("Monto");
+            monto.setTextContent(""+(r.nextInt(1000)+2000));
+            ventas2Row.appendChild(mes);
+            ventas2Row.appendChild(monto);
+            records.appendChild(ventas2Row);
+        }
+
+        ventas2Return.appendChild(records);
+
+
+        ventas2Result.appendChild(ventas2Return);
+
+        element.appendChild(ventas2Result);
+
+
+        return element;
     }
+
 
 
 

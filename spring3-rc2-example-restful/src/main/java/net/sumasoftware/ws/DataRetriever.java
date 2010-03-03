@@ -23,9 +23,6 @@ public class DataRetriever {
     private static Logger logger = Logger.getLogger(DataRetriever.class);
 
     public String retrieve(String connectionName, String tableName, String columns, String dataSetName, Map parameters, List filterNames) throws SQLException {
-
-        System.out.println("Retrieving data!!!! :D");
-
         ConnectionManager connectionManager = ConnectionManager.getInstance();
         DBConnection dbConnection = connectionManager.getConnectionProperties(connectionName);
         DataSource dataSource = DataSourceFactory.getDataSource(dbConnection);
@@ -72,6 +69,67 @@ public class DataRetriever {
         writer.println("</data>");
         connection.close();
         
+        return swriter.toString();
+    }
+
+    public String retrieve2(String connectionName, String tableName, String columns, String dataSetName, Map parameters, List filterNames) throws SQLException {
+        ConnectionManager connectionManager = ConnectionManager.getInstance();
+        DBConnection dbConnection = connectionManager.getConnectionProperties(connectionName);
+        DataSource dataSource = DataSourceFactory.getDataSource(dbConnection);
+        StringWriter swriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(swriter);
+
+        Connection connection = dataSource.getConnection();
+        TableDetail tableDetail = dbConnection.getTableDetail(tableName);
+
+        Statement statement = connection.createStatement();
+
+        if (StringUtils.isEmpty(dataSetName)) {
+            dataSetName = "data";
+        }
+        String sql = buildQuery(tableName, columns, filterNames, parameters);
+        ResultSet resultSet = statement.executeQuery(sql);
+        
+
+//        writer.println("<ventas2Response>");
+//        writer.print("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+        writer.print("<BIResponse>");
+        writer.print("<ventas2Result>");
+        writer.print("<ventas2Return>");
+        writer.print("<Success>true</Success>");
+        writer.print("<Message>Tutto aposto</Message>");
+        writer.print("<Records>");
+        while (resultSet.next()) {
+            writer.print("<ventas2Row>");
+            for (Iterator i = tableDetail.getTableColumns().iterator(); i.hasNext();) {
+                TableColumn tableColumn = (TableColumn) i.next();
+
+                String columnName = StringUtils.capitalize(tableColumn.getName());
+                System.out.println(">>> columnName = " + columnName);
+                String columnType = tableColumn.getType();
+                writer.print("<"+columnName+">");
+                if (columnType.contains("VARCHAR")) {
+                    writer.print(resultSet.getString(columnName));
+                } else if (columnType.contains("DATETIME")) {
+                    if (resultSet.getTimestamp(columnName) != null) {
+                        writer.print(resultSet.getObject(columnName));
+                    }
+                } else {
+                    writer.print(resultSet.getObject(columnName));
+                }
+
+                writer.print("</"+columnName+">");
+            }
+            writer.print("</ventas2Row>");
+        }
+//        writer.println("</variable>");
+        writer.print("</Records>");
+        writer.print("</ventas2Return>");
+        writer.print("</ventas2Result>");
+        writer.print("</BIResponse>");
+//        writer.println("</ventas2Response>");
+        connection.close();
+
         return swriter.toString();
     }
 

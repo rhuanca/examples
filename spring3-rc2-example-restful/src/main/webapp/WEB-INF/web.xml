@@ -33,11 +33,25 @@
     <servlet>
         <servlet-name>spring-ws</servlet-name>
         <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+        <!--<init-param>
+            <param-name>transformWsdlLocations</param-name>
+            <param-value>true</param-value>
+        </init-param>-->
     </servlet>
 
     <servlet-mapping>
         <servlet-name>spring-ws</servlet-name>
         <url-pattern>/ws/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>myWs</servlet-name>
+        <servlet-class>net.sumasoftware.ws.MyWs</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>myWs</servlet-name>
+        <url-pattern>/myws</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
