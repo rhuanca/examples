@@ -1,0 +1,13 @@
+apply plugin: 'eclipse'
+apply plugin: 'java'
+
+version = 0.1
+
+repositories {
+     mavenCentral()
+}
+
+dependencies {
+	runtime 'net.sf.jasperreports:jasperreports:4.0.1'
+	runtime	'junit:junit:4.+'
+}
