@@ -1,0 +1,17 @@
+apply plugin: 'eclipse'
+apply plugin: 'java'
+
+version = 0.1
+
+repositories {
+     mavenCentral()
+}
+
+repositories {
+    mavenRepo urls: "http://akka.io/repository"
+}
+
+dependencies {
+	runtime 'se.scalablesolutions.akka:akka-actor:1.1'
+	runtime	'junit:junit:4.+'
+}
