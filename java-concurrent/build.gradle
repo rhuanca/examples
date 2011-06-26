@@ -1,0 +1,12 @@
+apply plugin: 'eclipse'
+apply plugin: 'java'
+
+version = 0.1
+
+repositories {
+     mavenCentral()
+}
+
+dependencies {
+	runtime	'junit:junit:4.+'
+}
