@@ -8,10 +8,10 @@ repositories {
 }
 
 repositories {
-    mavenRepo urls: "http://akka.io/repository"
+    mavenRepo urls: "http://akka.io/repository/"
 }
 
 dependencies {
-	runtime 'se.scalablesolutions.akka:akka-actor:1.1'
+	runtime 'se.scalablesolutions.akka:akka-actor:1.1.2'
 	runtime	'junit:junit:4.+'
 }
