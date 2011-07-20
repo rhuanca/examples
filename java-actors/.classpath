@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="src" path="src/test/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry sourcepath="C:/Users/rhuanca/.gradle/cache/junit/junit/sources/junit-4.8.2-sources.jar" kind="lib" path="C:/Users/rhuanca/.gradle/cache/junit/junit/jars/junit-4.8.2.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/rhuanca/.gradle/cache/commons-io/commons-io/sources/commons-io-2.0.1-sources.jar" kind="lib" path="C:/Users/rhuanca/.gradle/cache/commons-io/commons-io/jars/commons-io-2.0.1.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/rhuanca/.gradle/cache/se.scalablesolutions.akka/akka-actor/sources/akka-actor-1.1.2-sources.jar" kind="lib" path="C:/Users/rhuanca/.gradle/cache/se.scalablesolutions.akka/akka-actor/jars/akka-actor-1.1.2.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/rhuanca/.gradle/cache/org.scala-lang/scala-library/sources/scala-library-2.9.0-1-sources.jar" kind="lib" path="C:/Users/rhuanca/.gradle/cache/org.scala-lang/scala-library/jars/scala-library-2.9.0-1.jar" exported="true"/>
+</classpath>

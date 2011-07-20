@@ -2,8 +2,15 @@ package renidev.examples.actors;
 
 import akka.actor.UntypedActor;
 
-public class FinderMaxWorker extends UntypedActor{
+public class FinderMaxWorker extends UntypedActor {
 	
+	private String name;
+	
+	public FinderMaxWorker(String name) {
+		super();
+		this.name = name;
+	}
+
 	public void onReceive(Object message) throws Exception {
 		switch (((Messages.Message) message).getType()) {
 			case CALCULATE_MAX_WORK:
@@ -15,11 +22,14 @@ public class FinderMaxWorker extends UntypedActor{
 	}
 
 	private void handleCalculateMaxWork(Messages.CalculateMaxWork message) {
-		System.out.println(getContext().getUuid()  + " finding max on range: ["+message.startRange + "," + message.endRange+"]");
+		System.out.println("["+name+"]- Chunk #: "+message.chunkNumber);
 		int max = 0;
-		for(int i=message.startRange; i<=message.endRange; i++) {
+		
+		for(int i=0; i<message.chunkSize; i++) {
 			if(message.numbers[i]>max) max = message.numbers[i];
 		}
+		
+		System.out.println("["+name+"]- Chunk's max: " + max);
 		
         // reply with the result
         getContext().replyUnsafe(new Messages.Result(max));

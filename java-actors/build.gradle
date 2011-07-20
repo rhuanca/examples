@@ -1,4 +1,5 @@
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'java'
 
 version = 0.1
@@ -13,5 +14,6 @@ repositories {
 
 dependencies {
 	runtime 'se.scalablesolutions.akka:akka-actor:1.1.2'
+	runtime 'commons-io:commons-io:2.0.1'
 	runtime	'junit:junit:4.+'
 }
