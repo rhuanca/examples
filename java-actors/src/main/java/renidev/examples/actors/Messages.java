@@ -29,12 +29,6 @@ public class Messages {
 	 * to calculate the max of a big array of numbers;
 	 */
 	public static class CalculateMax implements Message{
-		public final String filePath;
-
-		public CalculateMax(String filePath) {
-			this.filePath = filePath;
-		}
-
 		public MESSAGE_TYPES getType() {
 			return MESSAGE_TYPES.CALCULATE_MAX;
 		}
@@ -46,12 +40,10 @@ public class Messages {
 	 */
 	public static class CalculateMaxWork implements Message {
 
-		public final int numbers[];
 		public final int chunkSize;
 		public final int chunkNumber;
 		
-		public CalculateMaxWork(int[] numbers, int chunkSize, int chunkNumber) {
-			this.numbers = numbers;
+		public CalculateMaxWork(int chunkSize, int chunkNumber) {
 			this.chunkSize = chunkSize;
 			this.chunkNumber = chunkNumber;
 		}

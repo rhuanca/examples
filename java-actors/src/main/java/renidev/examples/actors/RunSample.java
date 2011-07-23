@@ -1,16 +1,11 @@
 package renidev.examples.actors;
 
-import java.net.URL;
-
 public class RunSample {
 	
-	private String fileName = "sampledata.txt";
-	
 	/**
-	 * create sample data, call sequential function and call concurrent function.
+	 * Calls sequential and concurrent function to find a max.
 	 */
 	public void run(){
-		checkSampleData();
 		long[] sequentialResult = callSequentialMax();
 		long[] concurrentResult = callConcurrentMax();
 		printSummary(sequentialResult, concurrentResult);
@@ -34,9 +29,8 @@ public class RunSample {
 	 */
 	private long[] callSequentialMax() {
 		Finder finder = new Finder();
-		String path = this.getClass().getClassLoader().getResource(fileName).getFile();
 		long t1 = System.currentTimeMillis();
-		int max = finder.sequentialMax(path);
+		int max = finder.sequentialMax();
 		long t2 = System.currentTimeMillis();
 		return new long[]{max,t2-t1}; 
 	}
@@ -46,31 +40,11 @@ public class RunSample {
 	 */
 	private long[] callConcurrentMax(){
 		Finder finder = new Finder();
-		String path = this.getClass().getClassLoader().getResource(fileName).getFile();
 		long t1 = System.currentTimeMillis();
-		int max = finder.concurrentMax(path);
+		int max = finder.concurrentMax();
 		long t2 = System.currentTimeMillis();
 		return new long[]{max,t2-t1};
 	}
-
-
-	/**
-	 * Checks if sample data file exists. if not, it created a new file and 
-	 * returns the max value created within the file.
-	 */
-	private void checkSampleData() {
-		URL resource = this.getClass().getClassLoader().getResource(fileName);
-		if(resource==null) {
-			System.out.println("Creating sample data");
-			String path = this.getClass().getClassLoader().getResource(".")+"/"+fileName;
-			int max = Utils.generateFileWithNInts(path.substring(6), 50000000);
-			System.out.println("max value in file is:"+max);
-		} else {
-			System.out.println("Test file already exists.");
-		}
-	}
-	
-	
 	
 	public static void main(String... args) {
 		new RunSample().run();

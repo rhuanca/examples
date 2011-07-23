@@ -3,12 +3,8 @@ package renidev.examples.actors;
 import static akka.actor.Actors.actorOf;
 import static akka.actor.Actors.poisonPill;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Scanner;
-
-import renidev.examples.actors.Messages.CalculateMaxWork;
-
 import akka.actor.ActorRef;
 import akka.actor.Channel;
 import akka.actor.UntypedActor;
@@ -17,31 +13,31 @@ import akka.japi.Procedure;
 import akka.routing.Routing.Broadcast;
 
 public class FinderMaxMaster extends UntypedActor {
-	private static int MAX_NUMBER_OF_WORKERS = 32;
+	private static int MAX_NUMBER_OF_WORKERS = 4;
 	static final int DEFAULT_CHUNK_SIZE = 500000;
-	
+	static final int ABC = 500000000 * 2;
+
 	private ActorRef router;
 	private String name;
 	private int max = 0;
 	private int numberOfResult = 0;
 	private int numberOfChunks = 0;
-	
+
 	public FinderMaxMaster(String name) {
 		this.name = name;
 
 		// create the workers
 		final ActorRef[] workers = new ActorRef[MAX_NUMBER_OF_WORKERS];
-		
+
 		for (int i = 0; i < MAX_NUMBER_OF_WORKERS; i++) {
-			final String workerName = "Worker #"+i;
+			final String workerName = "Worker #" + i;
 			workers[i] = actorOf(new UntypedActorFactory() {
-			  public UntypedActor create() {
-			    return new FinderMaxWorker(workerName);
-			   }
+				public UntypedActor create() {
+					return new FinderMaxWorker(workerName);
+				}
 			}).start();
 		}
-		
-		
+
 		// wrap them with a load-balancing router
 		router = actorOf(new UntypedActorFactory() {
 			public UntypedActor create() {
@@ -66,38 +62,27 @@ public class FinderMaxMaster extends UntypedActor {
 	 */
 	private final Procedure<Object> scatter = new Procedure<Object>() {
 		public void apply(Object object) {
-			Messages.CalculateMax message = (Messages.CalculateMax) object;
-			Scanner scanner;
-			try {
-				File source = new File(message.filePath);
-				scanner = new Scanner(source);
-			} catch (FileNotFoundException e) {
-				throw new RuntimeException("Unable to open file");
+			if(object instanceof Messages.CalculateMax) {
+				Random r = new Random();
+				int limit = 1000;
+				int counter = 0;
+				while (counter < limit) {
+					++numberOfChunks;
+					router.sendOneWay(createChunk(numberOfChunks, r),
+							getContext());
+					++counter;
+
+				}
+				System.out.println("[" + name + "] Number of chunks created:"
+						+ numberOfChunks);
+				become(gather(getContext().getChannel()));
+	
 			}
 			
-			
-			while(scanner.hasNextInt()) {
-				++numberOfChunks;
-				router.sendOneWay(createChunk(scanner, numberOfChunks), getContext());
-			}
-			System.out.println("["+name+"] Number of chunks created:"+numberOfChunks);
-			become(gather(getContext().getChannel()));
 		}
 
-		private Messages.CalculateMaxWork createChunk(Scanner scanner, int chunkNumber) {
-			
-			int numbers[] = new int[DEFAULT_CHUNK_SIZE];
-
-			int chunkSize = DEFAULT_CHUNK_SIZE;
-			for (int i = 0; i < DEFAULT_CHUNK_SIZE; i++) {
-				if(scanner.hasNextInt()) {
-					numbers[i] = scanner.nextInt();
-				} else {
-					chunkSize = i + 1;
-					break;
-				}
-			}
-			return new Messages.CalculateMaxWork(numbers, chunkSize, chunkNumber);
+		private Messages.CalculateMaxWork createChunk(int chunkNumber, Random r) {
+			return new Messages.CalculateMaxWork(DEFAULT_CHUNK_SIZE, chunkNumber);
 		}
 	};
 
@@ -117,8 +102,7 @@ public class FinderMaxMaster extends UntypedActor {
 
 				if (resultMessage.value > max) {
 					max = resultMessage.value;
-					System.out.println("["+name+"] Current max is:"+max);
-
+					System.out.println("[" + name + "] Current max is:" + max);
 				}
 
 				if (numberOfResult == numberOfChunks) {
